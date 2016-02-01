@@ -5,7 +5,9 @@
     state: present
     name: "{{moteino_username}}"
     home: "{{moteino_home_dir}}"
+    groups: "dialout"
     createhome: yes
+    shell: "/bin/bash"
   tags: [ "gateway", "user" ]
 
 - name: Clone moteino gateway git repository
