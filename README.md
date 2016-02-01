@@ -11,8 +11,7 @@ __NOTE__: Ansible has dependencies on python and sudo existing before it will ru
 ```
 git clone https://github.com/cacack/ansible-moteino-gateway.git
 ```
-
-1. Initialize submodules.
+2. Initialize submodules.
 ```
 cd ansible-moteino-gateway
 git submodules init
