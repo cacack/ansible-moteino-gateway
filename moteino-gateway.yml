@@ -21,6 +21,8 @@
       - traceroute
       # application
       - nginx
+    ssl_cert_filename: "/etc/ssl/wildcard.theclonchs.com.chained.crt"
+    ssl_key_filename: "/etc/ssl/private/wildcard.theclonchs.com.key"
 
   vars_prompt:
     - name: "wifi_ssid"
@@ -39,3 +41,4 @@
     - wifi
     - packaging
     - nodejs
+    - gateway

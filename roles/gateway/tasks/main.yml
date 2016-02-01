@@ -1,0 +1,109 @@
+---
+
+- name: Create moteino user
+  user:
+    state: present
+    name: "{{moteino_username}}"
+    home: "{{moteino_home_dir}}"
+    createhome: yes
+  tags: [ "gateway", "user" ]
+
+- name: Clone moteino gateway git repository
+  git:
+    repo: "{{gateway_repo_url}}"
+    dest: "{{gateway_repo_dir}}"
+    accept_hostkey: yes
+    update: no
+  tags: [ "gateway" ]
+
+- name: Update moteino gateway git repository
+  git:
+    repo: "{{gateway_repo_url}}"
+    dest: "{{gateway_repo_dir}}"
+    accept_hostkey: yes
+    update: yes
+  when: update|bool
+  tags: [ "gateway", "update" ]
+
+- name: Install required Node.JS packages
+  npm:
+    name: "{{item.name}}"
+    version: "{{item.version}}"
+    state: present
+    path: "{{gateway_repo_dir}}"
+  with_items:
+    - { name: 'serialport', version: '~2.0' }
+    - { name: 'socket.io', version: '~1.3' }
+    - { name: 'nedb', version: '~1.5' }
+    - { name: 'json5', version: '~0.4.0' }
+    - { name: 'nconf', version: '~0.8.2' }
+    - { name: 'nodemailer', version: '~1.10' }
+    - { name: 'console-stamp', version: '~0.2.0' }
+    - { name: 'colors', version: '~1.1.2' }
+    - { name: 'request', version: '~2.67' }
+  tags: [ "gateway", "nodejs" ]
+
+- name: Ensure gateway dir is owned by correct user
+  file:
+    state: directory
+    path: "{{gateway_repo_dir}}"
+    owner: "{{moteino_username}}"
+    group: "{{moteino_username}}"
+    recurse: yes
+  tags: [ "gateway" ]
+
+- name: Install configuration files from templates
+  template:
+    src: "{{item}}.j2"
+    dest: "/{{item}}"
+    owner: root
+    group: root
+    mode: 644
+  with_items:
+    - "etc/systemd/system/moteino-gateway.service"
+    - "etc/nginx/sites-available/moteino-gateway.conf"
+  notify: Restart moteino-gateway
+  tags: [ "gateway", "service" ]
+
+- name: Enable gateway.js systemd service
+  service:
+    name: moteino-gateway
+    enabled: yes
+  notify: Restart moteino-gateway 
+  tags: [ "gateway", "service" ]
+
+- name: Install nginx virtual host configuration file from template
+  template:
+    src: "{{item}}.j2"
+    dest: "/{{item}}"
+    owner: root
+    group: root
+    mode: 644
+  with_items:
+    - "etc/nginx/sites-available/moteino-gateway.conf"
+  notify: Restart nginx
+  tags: [ "gateway", "nginx" ]
+
+- name: Enable nginx virtual host
+  file:
+    state: link
+    src: "/etc/nginx/sites-available/{{item}}.conf"
+    dest: "/etc/nginx/sites-enabled/{{item}}"
+  with_items:
+    - "moteino-gateway"
+  notify: Restart nginx
+  tags: [ "gateway", "nginx" ]
+
+- name: Disable nginx default virtual host
+  file:
+    state: absent
+    path: "/etc/nginx/sites-enabled/default"
+  notify: Restart nginx
+  tags: [ "gateway", "nginx" ]
+
+- name: Enable nginx systemd service
+  service:
+    name: nginx
+    enabled: yes
+  notify: Restart nginx
+  tags: [ "gateway", "nginx", "service" ]

@@ -1,0 +1,55 @@
+# {{ansible_managed}}
+
+#use upstream when you want to do load balancing on your websocket
+#upstream backend {
+#  server localhost:8080;
+#  server localhost:8081;
+#}
+ 
+server{
+  listen 80;
+  listen 443 ssl;
+  server_name default;
+ 
+  # enable basic authentication and point to the credentials file
+  auth_basic "Restricted";
+  auth_basic_user_file {{gateway_repo_dir}}/data/secure/.htpasswd;
+ 
+  # point to the SSL certificate required for SSL
+  ssl_certificate {{ssl_cert_filename}};
+  ssl_certificate_key {{ssl_key_filename}};
+ 
+  access_log /var/log/nginx/default.access.log;
+  error_log /var/log/nginx/default.error.log;
+ 
+  # Redirect all non-SSL traffic to SSL.
+  if ($ssl_protocol = "") {
+    rewrite ^ https://$host$request_uri? permanent;
+  }
+ 
+  # point to the www directory of this site, and setup the index pages
+  root {{gateway_repo_dir}}/www;
+  index index.html index.php index.htm; ## first that is found is matched
+ 
+  # enable websocket proxying to a backend socket server running on a custom port
+  # by default, the endpoint for the socket.io websocket server is socket.io
+  location /socket.io/ {
+    proxy_pass http://localhost:8080;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection upgrade;
+    proxy_set_header X-Real-IP  $remote_addr;
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }
+ 
+  # redirect server error pages to the static page /50x.html
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+      root html;
+  }
+ 
+  ## Disable viewing .htaccess & .htpassword
+  location ~ /\.ht {
+      deny all;
+  }
+}

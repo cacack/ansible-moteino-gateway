@@ -1,0 +1,11 @@
+---
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
+
+- name: Restart moteino-gateway
+  service:
+    name: moteino-gateway
+    state: restarted

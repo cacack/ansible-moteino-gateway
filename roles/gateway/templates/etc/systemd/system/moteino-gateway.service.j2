@@ -1,0 +1,15 @@
+# {{ansible_managed}}
+
+[Unit]
+Description=Moteino gateway.js home automation socket server
+After=network.target
+
+[Service]
+Type=simple
+User={{moteino_username}}
+ExecStart=/usr/bin/node {{gateway_repo_dir}}/gateway.js
+Restart=on-abort
+
+
+[Install]
+WantedBy=multi-user.target
