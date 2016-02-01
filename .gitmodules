@@ -1,0 +1,12 @@
+[submodule "roles/packaging"]
+	path = roles/packaging
+	url = git@github.com:cacack/ansible-role-packaging.git
+[submodule "roles/tweaks"]
+	path = roles/tweaks
+	url = git@github.com:cacack/ansible-role-rpi-tweaks.git
+[submodule "roles/wifi"]
+	path = roles/wifi
+	url = git@github.com:cacack/ansible-role-rpi-wifi.git
+[submodule "roles/nodejs"]
+	path = roles/nodejs
+	url = git@github.com:cacack/ansible-role-nodejs.git
