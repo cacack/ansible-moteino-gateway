@@ -9,7 +9,7 @@ moteino_home_dir: "/srv/moteino"
 
 gateway_log_filename: "/var/log/{{gateway_long_name}}.log"
 gateway_repo_url: "https://github.com/LowPowerLab/RaspberryPi-Gateway.git"
-gateway_repo_dir: "{{moteino_home_dir}}/gateway"
+gateway_repo_dir: "{{moteino_home_dir}}/{{gateway_short_name}}"
 gateway_syslog_id: "{{gateway_short_name}}"
 
 ssl_cert_filename: "/etc/ssl/server.crt"
