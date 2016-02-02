@@ -38,7 +38,9 @@
 
   roles:
     - tweaks
+    - timezone
     - wifi
     - packaging
+    - ntp
     - nodejs
     - gateway
