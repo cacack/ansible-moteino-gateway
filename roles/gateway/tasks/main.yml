@@ -54,7 +54,47 @@
     recurse: yes
   tags: [ "gateway" ]
 
-- name: Install configuration files from templates
+- name: Check if log file exists
+  stat:
+    path: "{{gateway_log_filename}}"
+  register: logfile
+  tags: [ "gateway", "syslog" ]
+
+- name: Create an empty log file
+  file:
+    path: "{{gateway_log_filename}}"
+    state: touch
+    owner: "{{moteino_username}}"
+    group: "adm"
+    mode: 0640
+  when: not logfile.stat.exists
+  notify: Restart rsyslog
+  tags: [ "gateway", "syslog" ]
+
+- name: Install logrotate configuration file from template
+  template:
+    src: "{{item}}.j2"
+    dest: "/{{item}}"
+    owner: root
+    group: root
+    mode: 644
+  with_items:
+    - "etc/logrotate.d/moteino-gateway.conf"
+  tags: [ "gateway", "syslog", "logrotate" ]
+
+- name: Install rsyslog configuration file from template
+  template:
+    src: "{{item}}.j2"
+    dest: "/{{item}}"
+    owner: root
+    group: root
+    mode: 644
+  with_items:
+    - "etc/rsyslog.d/moteino-gateway.conf"
+  notify: Restart rsyslog
+  tags: [ "gateway", "syslog" ]
+
+- name: Install systemd service file from template
   template:
     src: "{{item}}.j2"
     dest: "/{{item}}"

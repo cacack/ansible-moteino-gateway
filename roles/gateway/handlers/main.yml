@@ -9,3 +9,8 @@
   service:
     name: moteino-gateway
     state: restarted
+
+- name: Restart rsyslog
+  service:
+    name: rsyslog
+    state: restarted

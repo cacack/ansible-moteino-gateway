@@ -9,7 +9,9 @@ Type=simple
 User={{moteino_username}}
 ExecStart=/usr/bin/node {{gateway_repo_dir}}/gateway.js
 Restart=on-abort
-
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier={{gateway_syslog_id}}
 
 [Install]
 WantedBy=multi-user.target

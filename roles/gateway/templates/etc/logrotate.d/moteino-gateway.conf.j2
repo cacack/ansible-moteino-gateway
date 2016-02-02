@@ -1,0 +1,16 @@
+# {{ansible_managed}}
+
+{{gateway_log_filename}} {
+        size 20M
+        missingok
+        rotate 10
+        #dateext
+        #dateformat -%Y-%m-%d
+        compress
+        notifempty
+        create 0640 {{moteino_username}} adm
+        postrotate
+                invoke-rc.d rsyslog rotate > /dev/null
+        endscript
+
+}
