@@ -19,8 +19,8 @@ server{
   ssl_certificate {{ssl_cert_filename}};
   ssl_certificate_key {{ssl_key_filename}};
  
-  access_log /var/log/nginx/default.access.log;
-  error_log /var/log/nginx/default.error.log;
+  access_log /var/log/nginx/{{gateway_short_name}}.access.log;
+  error_log /var/log/nginx/{{gateway_short_name}}.error.log;
  
   # Redirect all non-SSL traffic to SSL.
   if ($ssl_protocol = "") {
