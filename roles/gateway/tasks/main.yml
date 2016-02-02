@@ -103,7 +103,6 @@
     mode: 644
   with_items:
     - "etc/systemd/system/moteino-gateway.service"
-    - "etc/nginx/sites-available/moteino-gateway.conf"
   notify: Restart moteino-gateway
   tags: [ "gateway", "service" ]
 
