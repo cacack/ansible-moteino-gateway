@@ -10,3 +10,9 @@
 [submodule "roles/nodejs"]
 	path = roles/nodejs
 	url = git@github.com:cacack/ansible-role-nodejs.git
+[submodule "roles/timezone"]
+	path = roles/timezone
+	url = git@github.com:cacack/ansible-role-timezone.git
+[submodule "roles/ntp"]
+	path = roles/ntp
+	url = git@github.com:cacack/ansible-role-ntp.git
