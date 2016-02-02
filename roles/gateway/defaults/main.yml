@@ -5,7 +5,6 @@ gateway_short_name: "gateway"
 
 moteino_username: "moteino"
 moteino_home_dir: "/srv/moteino"
-#gateway_repo_url: "git@github.com:LowPowerLab/RaspberryPi-Gateway.git"
 
 gateway_log_filename: "/var/log/{{gateway_long_name}}.log"
 gateway_repo_url: "https://github.com/LowPowerLab/RaspberryPi-Gateway.git"
