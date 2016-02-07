@@ -1,5 +1,5 @@
 #preset=server
-packages= python-simplejson,sudo
+packages=python-simplejson,sudo
 #mirror=http://mirrordirector.raspbian.org/raspbian/
 #release=jessie
 #hostname=pi
