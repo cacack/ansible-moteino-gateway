@@ -32,7 +32,7 @@
   npm:
     path: "{{gateway_repo_dir}}"
     state: present
-  tags: [ "gateway", "nodejs" ]
+  tags: [ "gateway", "node_packages" ]
 
 - name: Ensure gateway dir is owned by correct user
   file:
