@@ -99,6 +99,7 @@
   service:
     name: moteino-gateway
     enabled: yes
+    state: started
   notify: Restart moteino-gateway 
   tags: [ "gateway", "service" ]
 
@@ -135,5 +136,6 @@
   service:
     name: nginx
     enabled: yes
+    state: started
   notify: Restart nginx
   tags: [ "gateway", "nginx", "service" ]
