@@ -39,6 +39,7 @@
 
   roles:
     - tweaks
+    - locale
     - timezone
     - wifi
     - packaging
