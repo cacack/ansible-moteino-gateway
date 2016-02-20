@@ -15,6 +15,7 @@
       # admin
       - htop
       - iftop
+      - lsof
       - iotop
       - sysstat
       - tmux
