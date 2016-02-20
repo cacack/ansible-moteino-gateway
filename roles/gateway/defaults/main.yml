@@ -1,5 +1,6 @@
 ---
 
+gateway_version: "8.3"
 gateway_long_name: "moteino-gateway"
 gateway_short_name: "gateway"
 
