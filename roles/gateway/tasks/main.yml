@@ -23,6 +23,15 @@
   git:
     repo: "{{gateway_repo_url}}"
     dest: "{{gateway_repo_dir}}"
+    version: "{{gateway_version}}"
+    accept_hostkey: yes
+    update: yes
+  tags: [ "gateway", "update", "tagged" ]
+
+- name: Update moteino gateway git repository
+  git:
+    repo: "{{gateway_repo_url}}"
+    dest: "{{gateway_repo_dir}}"
     accept_hostkey: yes
     update: yes
   when: update|bool
